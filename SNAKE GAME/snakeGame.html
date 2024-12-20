@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNAKE GAME</title>
+</head>
+<body>
+    <canvas id="snakeGame" width="900" height="900"></canvas>
+</body>
+<script>
+    var canvContext;
+    var canv;
+    window.onload=function(){
+        canvas = document.getElementById("snakeGame");
+        canvasContext = canvas.getContext("2d");
+        document.addEventListener("keydown",keyPush);
+        setInterval(game, 1000/15);
+    }
+    
+    var vx = vy =0; //progress value
+    var px = py= 10; //present location for snake
+    var gameSize = 30;
+    var applex = appley = 15; //apple location
+    var trail=[];
+    var tail = 5;
+
+    function game(){
+        px += vx;
+        py += vy;
+        if(px<0) //if the snake touches the left edge
+        { 
+           px = gameSize-1;
+        }
+        if(px>gameSize-1) //if the snake touches the right edge
+        { 
+            px=0;
+        }
+        if(py<0) //if the snake touches the upper edge
+        { 
+           py = gameSize-1;
+        }
+        if(py>gameSize-1) //if the snake touches the lower edge
+        { 
+            py=0;
+        }
+
+        canvasContext.fillStyle= "black"; //game color
+        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+        canvasContext.fillStyle= "lime"; //snake color
+        for(var i=0; i<trail.length; i++){
+            canvasContext.fillRect(trail[i].x*gameSize, trail[i].y*gameSize, gameSize-2, gameSize-2);
+
+            if(trail[i].x == px && trail[i].y == py) //if the snake touches itself, snake changes back to its original form
+            {
+              tail=5;
+            }
+        }
+
+        trail.push({x:px, y:py});
+        while(trail.length>tail){
+            trail.shift();
+        }
+
+        canvasContext.fillStyle= "red"; //apple color
+        canvasContext.fillRect(applex*gameSize, appley*gameSize, gameSize-2, gameSize-2);
+
+        if(applex == px && appley == py)
+        {
+            tail++;
+            applex=Math.floor(Math.random()*gameSize);
+            appley=Math.floor(Math.random()*gameSize);
+        }
+    }
+
+    function keyPush(e){
+        if(e.keyCode == 37 && vx != 1) //left arrow key
+        {
+           vx = -1;
+           vy =  0;
+        }
+        if(e.keyCode == 38 && vy != 1) //upper arrow key
+        {
+           vx =  0;
+           vy = -1;
+        }
+        if(e.keyCode == 39 && vx != -1) //right arrow key
+        { 
+            vx = 1;
+            vy = 0;
+        }
+        if(e.keyCode == 40 && vy != -1) // lower arrow key
+        { 
+            vx = 0;
+            vy = 1;
+        }
+    }   
+</script>
+</html>
