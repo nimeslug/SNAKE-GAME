@@ -1,4 +1,4 @@
-# SNAKE-GAME
+# SNAKE GAME
 This is a simple Snake Game built with HTML and embedded JavaScript.
 The game features a grid with a size of 30, where the player controls a snake that moves around to eat apples, grow longer, and avoid hitting itself.
 The snake can move in four directions (up, down, left, right) using the arrow keys.
